@@ -11,7 +11,7 @@
 	<div id="principal">
 		<h2>Bienvenido a tu librería virtual</h2>	
 		<div id="acceso">
-			Inicia sesión / Registrate
+			<a href="login.jsp">Inicia sesión / Registrate</a>
 		</div>
 		<div id="filtro">
 			<p>Búsqueda de libros (Puedes buscar por autor, editorial, isbn o título): <input type="text" id="buscar">

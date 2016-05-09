@@ -20,7 +20,7 @@ public class BusquedaDAO {
 			Class.forName("org.hsqldb.jdbcDriver");
 			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
 			st = conexion.createStatement();
-			String sql = ("INSERT INTO TBUSUARIOS VALUES (1, 'Alberto')"); 
+			String sql = ("INSERT INTO TBUSUARIOS VALUES (1, 'Alberto') WHERE NOT EXISTS (SELECT * FROM TBUSUARIOS WHERE id = 1 AND nombre = 'Alberto')"); 
 			st.executeUpdate(sql);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -39,7 +39,7 @@ public class BusquedaDAO {
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 			//crearConexion();
-			connection = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
+			connection = DriverManager.getConnection("jdbc:hsqldb:ficherodb", "libreria", "libreria");
 			st = connection.createStatement();
 			String sqlCreate = ("CREATE TABLE IF NOT EXISTS TBUSUARIOS (id int, nombre varchar(255));");
 			st.executeUpdate(sqlCreate);
@@ -47,6 +47,7 @@ public class BusquedaDAO {
 			stSelect = connection.createStatement();
 			ResultSet rs = stSelect.executeQuery(sqlSelect);
 			while (rs.next()) {
+				System.out.println("SENTENCIA");
 				System.out.println(rs.getLong("id"));
 				System.out.println(rs.getString("nombre"));
 			}
