@@ -22,6 +22,18 @@
 		
 		</div>
 	</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			type: "GET",
+			url: "./cargaInicial",
+			success: function(response) {
+				$("#resultado").append(response.nombre);
+				alert(response);
+	 	  }
+		});	
+	});
 
+</script>
 </body>
 </html>

@@ -9,9 +9,7 @@ import java.sql.Statement;
 public class BusquedaDAO {
 	
 	
-	private void crearConexion() throws ClassNotFoundException{
-		Class.forName("org.hsqldb.jdbcDriver");
-	}
+	
 	
 	private static void crearUsuario() throws SQLException{
 		Connection conexion = null;
