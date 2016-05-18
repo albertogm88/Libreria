@@ -1,4 +1,4 @@
-package accesobd;
+package libreria.accesobd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

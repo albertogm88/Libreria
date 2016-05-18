@@ -1,4 +1,4 @@
-package usuarios;
+package libreria.usuarios;
 
 public class Libreria {
 

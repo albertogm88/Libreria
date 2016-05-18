@@ -1,4 +1,4 @@
-package accesobd;
+package libreria.accesobd;
 
 public class CrearConexion {
 

@@ -1,4 +1,4 @@
-package negocio;
+package libreria.negocio;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,9 @@
-package negocio;
+package libreria.negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import accesobd.GestionLibrosDAO;
+import libreria.accesobd.GestionLibrosDAO;
 
 public class GestionLibrosNegocio {
 	
