@@ -14,8 +14,8 @@
    <context:component-scan base-package="libreria.control" />
 
    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-      <property name="prefix" value="/WEB-INF/" />
-      <property name="suffix" value=".jsp" />
+    <property name="prefix" value="/jsp/" />
+	<property name="suffix" value=".jsp" />
    </bean>
    
    <mvc:resources mapping="/jquery/**" location="/jquery/" />

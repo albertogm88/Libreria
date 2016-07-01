@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,29 +10,102 @@
 </head>
 <body>
 	<div id="principal">
-		<h2>Bienvenido a tu librería virtual</h2>	
+		<div id="cabecera">
+			<h2>Bienvenido a tu librería virtual</h2>
+			<br>	
+		</div>
 		<div id="acceso">
-			<a href="login.jsp">Inicia sesión / Registrate</a>
+		<c:if test="${not empty USUARIO}">
+			Has iniciado sesión como ${USUARIO.nombre}. <a href="./cerrarSesion">Cerrar sesión</a>
+		</c:if>
+		<c:if test="${empty USUARIO}">
+			<a href="jsp/login.jsp">Inicia sesión / Regístrate</a>
+		</c:if>
 		</div>
 		<div id="filtro">
-			<p>Búsqueda de libros (Puedes buscar por autor, editorial, isbn o título): <input type="text" id="buscar">
-			<input type="button" value="Buscar"></p>
+			<p>Búsqueda de libros (Puedes buscar por autor, editorial o título): <input type="text" id="texto">
+			<input type="button" value="Buscar" id="buscar" name="buscar">
+			<br>
+			Si conoces el ISBN, búscalo aquí: <input type="text" id="isbnTexto" placeholder="Búsqueda por ISBN">
+			<input type="button" value="Buscar" id="isbnBuscar" name="isbnBuscar"></p>
 		</div>
-		<div id="resultado">
-		
-		
+		<div style="clear: both"></div>
+		<p>Libros actualmente disponibles:</p>
+		<div id="resultado"></div>
+		<div id="marco">
+			<span id="cerrar">Cerrar [x]</span>
+			<div id="detalle">
+			</div>
 		</div>
+		<div style="clear: both"></div>
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
 			type: "GET",
 			url: "./cargaInicial",
-			success: function(response) {
-				$("#resultado").append(response.nombre);
-				alert(response);
-	 	  }
-		});	
+			dataType: "json",
+			success: function(data) {
+				$(data).each(function(index, item) {
+					$("#resultado").append("<div class='libro'><input type='hidden' value='"+item.isbn+"'><p><h3>"+item.nombre+"</h3></p><p>Escrito por: "+item.autor+"</p><p>Editorial: "+item.editorial+"</p></span></div>");	
+				});	
+	 	  	}
+		});
+		$(document).on('click', ".libro", function(){
+			$("#marco").hide();
+			$("#detalle").empty();
+			$.ajax({
+				type: "GET",
+				url: "./detalle",
+				data: "isbn="+$(this).find("input").val(),
+				success: function(data) {
+					$("#detalle").append(data);
+					$("#marco").show();
+				}
+			});
+		});
+		$(document).on('click', "#cerrar", function(){
+			$("#marco").hide();
+			$("#detalle").empty();
+		});
+		$(document).on('click', "#buscar", function(){
+			if($("#texto").val()!=""){
+				$.ajax({
+					type: "GET",
+					url: "./buscar",
+					data: "texto="+$("#texto").val(),
+					dataType: "json",
+					success: function(data) {
+						$("#resultado").empty();
+						$(data).each(function(index, item) {
+							$("#resultado").append("<div class='libro'><input type='hidden' value='"+item.isbn+"'><p><h3>"+item.nombre+"</h3></p><p>Escrito por: "+item.autor+"</p><p>Editorial: "+item.editorial+"</p></span></div>");	
+						});	
+			 	  	}
+				});
+			}else{
+				alert("Debes escribir algo");
+			}
+		});
+		$(document).on('click', "#isbnBuscar", function(){
+			if($("#isbnTexto").val()!=""){
+				if(!isNaN($("#isbnTexto").val())){
+					$.ajax({
+						type: "GET",
+						url: "./buscarPorISBN",
+						data: "isbn="+$("#isbnTexto").val(),
+						dataType: "json",
+						success: function(data) {
+							$("#resultado").empty();
+							$(data).each(function(index, item) {
+								$("#resultado").append("<div class='libro'><input type='hidden' value='"+item.isbn+"'><p><h3>"+item.nombre+"</h3></p><p>Escrito por: "+item.autor+"</p><p>Editorial: "+item.editorial+"</p></span></div>");	
+							});	
+				 	  	}
+					});
+				}
+			}else{
+				alert("Debes escribir algo");
+			}
+		});
 	});
 
 </script>

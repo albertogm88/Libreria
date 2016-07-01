@@ -1,4 +1,11 @@
 @CHARSET "UTF-8";
+html{
+	background-color: #F1FAEE;
+	color: #1D3557;
+}
+a{
+	color: #E63946;
+}
 
 #acceso{
 	float: right;
@@ -6,4 +13,48 @@
 
 #filtro{
 	float: left;
+}
+#resultado{
+	width: 100%;
+	display: block;
+	float: left;
+}
+#principal{
+	display:block; 
+	width:900px; 
+	margin:0 auto;
+	padding: 10px 15px 0 15px;
+	line-height:1.8em;
+}
+#cabecera{
+	color: #1D3557;
+	background-color: #A8DADC;
+	padding: 5px 10px 0 10px;
+	border-radius: 5px;
+	text-align: center;
+}
+#cerrar{
+	color: #E63946;
+	float: right;
+	cursor: pointer;
+}
+
+.libro{
+	border: 1px solid #457B9D;
+	display:block; 
+	float:left;
+	padding: 0 5px; 
+	margin:0 30px 0 0;
+	width:250px;
+	border-radius: 5px;
+}
+
+#marco{
+	z-index: 2;
+	display: none;
+	top: 35%;
+	left: 20%;
+	right: 30%;
+	background-color: #A8DADC;
+	position: absolute;
 }
