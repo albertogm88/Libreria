@@ -48,10 +48,15 @@
 				data: "nombre="+$("#nombre").val()+"&pass="+$("#pass").val(),
 				dataType: "text",
 				success: function(data){
-					window.location ="../consultaPerfil?id="+data;
+					console.log(data)
+					if(parseInt(data) != 0){
+						window.location ="../consultaPerfil?id="+data;
+					}else{
+						alert('Usuario o contraseña incorrectos');
+					}
 				},
 				error:function(){
-					alert('Usuario o contraseña incorrectos');
+					alert('Error al consultar los datos');
 				}
 			});
 		}	

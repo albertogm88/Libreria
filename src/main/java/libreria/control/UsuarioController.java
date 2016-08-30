@@ -32,11 +32,10 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="/inicioSesion", method = RequestMethod.POST)
-	@ResponseBody public String inicioSesion(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass) throws Exception{
+	@ResponseBody public int inicioSesion(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass) throws Exception{
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		TOUsuarios usuario = gestionUsuarios.inicioSesion(nombre, pass);
-		String user = Integer.toString(usuario.getId());
-		return user;
+		return usuario!=null?usuario.getId():0;
 	}
 	
 	@RequestMapping(value="/cerrarSesion", method = {RequestMethod.POST, RequestMethod.GET})
@@ -63,4 +62,10 @@ public class UsuarioController {
 		session.setAttribute("USUARIO",usuario);
 		return "perfil";
 	}
+	@RequestMapping(value="/usuarios",  method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
+		return gestionUsuarios.getTodosUsuario();
+	}
+	
 }

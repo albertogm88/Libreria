@@ -1,6 +1,8 @@
 package libreria.negocio;
 
 
+import java.util.ArrayList;
+
 import libreria.accesobd.GestionUsuariosDAO;
 
 public class GestionUsuariosNegocio {
@@ -23,6 +25,10 @@ public class GestionUsuariosNegocio {
 	
 	public TOUsuarios getUsuario(int id) throws Exception{
 		return gestionUsuarios.getUsuario(id);
+	}
+	
+	public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+		return gestionUsuarios.getTodosUsuario();
 	}
 	
 }

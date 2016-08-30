@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import libreria.negocio.TOUsuarios;
 
@@ -96,7 +97,7 @@ public class GestionUsuariosDAO {
 	
 	public TOUsuarios getUsuario(int id) throws Exception{
 		Connection conexion = null;
-		TOUsuarios usuarios = null;
+		TOUsuarios usuario = null;
 		Statement st = null;
 		ResultSet rs = null;
 		try {
@@ -106,14 +107,48 @@ public class GestionUsuariosDAO {
 			String sql = ("SELECT * FROM TBUSUARIOS WHERE ID = "+id+";");
 			rs = st.executeQuery(sql);
 			if(rs.next()){ 
-				usuarios = new TOUsuarios();
-				usuarios.setId(rs.getInt("ID"));
-				usuarios.setNombre(rs.getString("NOMBRE"));
-				usuarios.setPass(rs.getString("PASS"));
-				usuarios.setEmail(rs.getString("EMAIL"));
-				usuarios.setProvincia(rs.getString("PROVINCIA"));
-				usuarios.setTipoUsuario(rs.getString("TIPO"));
-				usuarios.setIndBaja(rs.getString("INDBAJA"));
+				usuario = new TOUsuarios();
+				usuario.setId(rs.getInt("ID"));
+				usuario.setNombre(rs.getString("NOMBRE"));
+				usuario.setPass(rs.getString("PASS"));
+				usuario.setEmail(rs.getString("EMAIL"));
+				usuario.setProvincia(rs.getString("PROVINCIA"));
+				usuario.setTipoUsuario(rs.getString("TIPO"));
+				usuario.setIndBaja(rs.getString("INDBAJA"));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			throw new Exception("Error al crear la clase de conexion"+e.getMessage());
+		}catch(SQLException e){
+			throw new Exception("Error en la operación"+e.getMessage());
+		} finally{
+			st.close();
+			conexion.close();
+		}	
+		return usuario;
+	}
+	
+	public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+		Connection conexion = null;
+		ArrayList<TOUsuarios> usuarios = new ArrayList<TOUsuarios>();
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
+			st = conexion.createStatement();
+			String sql = ("SELECT * FROM TBUSUARIOS;");
+			rs = st.executeQuery(sql);
+			if(rs.next()){ 
+				TOUsuarios usuario = new TOUsuarios();
+				usuario.setId(rs.getInt("ID"));
+				usuario.setNombre(rs.getString("NOMBRE"));
+				usuario.setPass(rs.getString("PASS"));
+				usuario.setEmail(rs.getString("EMAIL"));
+				usuario.setProvincia(rs.getString("PROVINCIA"));
+				usuario.setTipoUsuario(rs.getString("TIPO"));
+				usuario.setIndBaja(rs.getString("INDBAJA"));
+				usuarios.add(usuario);
 			}
 			
 		} catch (ClassNotFoundException e) {

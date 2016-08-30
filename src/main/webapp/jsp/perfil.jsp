@@ -9,28 +9,13 @@
 <title>Perfil del usuario</title>
 <link rel="stylesheet" type="text/css" href="./style/style.css">
 <script src="./jquery/jquery-1.9.js"></script>
-<style type="text/css">
-	#menuLibros{
-		text-align: center;
-	}
-	#menuCliente{
-		text-align: center;
-	}
-	#menuCliente div{
-		background-color: #E63946;
-		cursor: pointer;
-	}
-	#menuLibros div{
-		cursor: pointer;
-	}
-</style>
 </head>
 <body>
 	<div id="principal">
 		<h2>${USUARIO.nombre} estas en tu área de usuario</h2><span style="text-align: right;"><a href=".">Volver al inicio</a></span>
 		<div id="menuLibros">
 			<h3>Menú contextual libros:</h3>
-			<div class='libro'>Alta de un nuevo libro</div>
+			<div class='libro'><a href="jsp/altaLibro.jsp">Alta de un nuevo libro</a></div>
 			<div class='libro'>Modificación de un libro</div>
 			<div class='libro'>Dar de baja un libro</div>
 		</div>
