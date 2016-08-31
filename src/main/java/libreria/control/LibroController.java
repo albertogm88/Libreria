@@ -2,8 +2,6 @@ package libreria.control;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +16,7 @@ import libreria.negocio.TOLibros;
 public class LibroController {
 	
 	@RequestMapping(value="/detalle", method = RequestMethod.GET)
-	public ModelAndView getDetalle(@RequestParam("isbn") int isbn, HttpServletRequest request) throws Exception{
+	public ModelAndView getDetalle(@RequestParam("isbn") int isbn) throws Exception{
 		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		TOLibros libro = gestionLibros.getDetalle(isbn);
 		return new ModelAndView("libro", "LIBRO", libro);
@@ -33,6 +31,13 @@ public class LibroController {
 	
 	@RequestMapping(value="/buscarPorISBN", method = RequestMethod.GET)
 	@ResponseBody public ArrayList<TOLibros> buscarLibros(@RequestParam("isbn") int isbn) throws Exception{
+		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
+		ArrayList<TOLibros> libros = gestionLibros.buscarLibroPorISBN(isbn);
+		return libros;
+	}
+	
+	@RequestMapping(value="/buscarPorUsuario", method = RequestMethod.GET)
+	@ResponseBody public ArrayList<TOLibros> buscarLibrosPorUsuario(@RequestParam("isbn") int isbn) throws Exception{
 		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		ArrayList<TOLibros> libros = gestionLibros.buscarLibroPorISBN(isbn);
 		return libros;

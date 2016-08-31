@@ -58,16 +58,13 @@ a{
 	background-color: #A8DADC;
 	position: absolute;
 }
-#menuLibros{
-	text-align: center;
-}
-#menuCliente{
+.menuLibros, #menuCliente{
 	text-align: center;
 }
 #menuCliente div{
 	background-color: #E63946;
 	cursor: pointer;
 }
-#menuLibros div{
+.menuLibros div{
 	cursor: pointer;
 }

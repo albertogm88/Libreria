@@ -6,9 +6,7 @@ import libreria.accesobd.GestionLibrosDAO;
 
 public class GestionLibrosNegocio {
 	
-	
-	public GestionLibrosNegocio(){
-		
+	public GestionLibrosNegocio(){	
 	}
 	
 	public ArrayList<TOLibros> cargaInicial(){
@@ -36,15 +34,16 @@ public class GestionLibrosNegocio {
 
 	public ArrayList<TOLibros> buscarLibros(String texto) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
-		listaLibros = gestionLibros.buscarLibros(texto);
-		return listaLibros;
+		return gestionLibros.buscarLibros(texto);
 	}
 	
 	public ArrayList<TOLibros> buscarLibroPorISBN(int isbn) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
-		listaLibros = gestionLibros.buscarLibrosPorISBN(isbn);
-		return listaLibros;
+		return gestionLibros.buscarLibrosPorISBN(isbn);
+	}
+	
+	public ArrayList<TOLibros> getTodosLibrosUsuario(int idUsu) throws Exception{
+		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
+		return gestionLibros.getTodosLibrosUsuario(idUsu);
 	}
 }

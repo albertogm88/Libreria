@@ -12,12 +12,24 @@
 </head>
 <body>
 	<div id="principal">
-		<h2>${USUARIO.nombre} estas en tu área de usuario</h2><span style="text-align: right;"><a href=".">Volver al inicio</a></span>
-		<div id="menuLibros">
+		<h2>${USUARIO.nombre} estas en tu área de usuario</h2><span style="text-align: right;">
+		<a href=".">Volver al inicio</a></span>
+		<div class="menuLibros">
 			<h3>Menú contextual libros:</h3>
 			<div class='libro'><a href="jsp/altaLibro.jsp">Alta de un nuevo libro</a></div>
 			<div class='libro'>Modificación de un libro</div>
 			<div class='libro'>Dar de baja un libro</div>
+		</div>
+		<br><br>
+		<div class="menuLibros">
+			<h3>Mis libros:</h3>
+			<c:forEach items="${LIBROS}" var="libro">
+				<div class="libro">
+					<p>${libro.nombre}</p>
+					<p>${libro.autor}</p>
+					<p>${libro.editorial}</p>
+				</div>
+			</c:forEach>
 		</div>
 		<br><br>
 		<div id="menuCliente">

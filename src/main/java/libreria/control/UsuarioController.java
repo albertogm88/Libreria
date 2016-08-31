@@ -35,7 +35,7 @@ public class UsuarioController {
 	@ResponseBody public int inicioSesion(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass) throws Exception{
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		TOUsuarios usuario = gestionUsuarios.inicioSesion(nombre, pass);
-		return usuario!=null?usuario.getId():0;
+		return usuario!=null?usuario.getId():null;
 	}
 	
 	@RequestMapping(value="/cerrarSesion", method = {RequestMethod.POST, RequestMethod.GET})
@@ -56,9 +56,11 @@ public class UsuarioController {
 	@RequestMapping(value="/consultaPerfil", method = {RequestMethod.POST, RequestMethod.GET})
 	public String getPerfil(@RequestParam("id") int id, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
+		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		HttpSession session= request.getSession(true);
 		TOUsuarios usuario = gestionUsuarios.getUsuario(id);
 		model.addAttribute("USUARIO", usuario);
+		model.addAttribute("LIBROS", gestionLibros.getTodosLibrosUsuario(id));
 		session.setAttribute("USUARIO",usuario);
 		return "perfil";
 	}

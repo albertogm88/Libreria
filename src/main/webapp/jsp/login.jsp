@@ -48,8 +48,7 @@
 				data: "nombre="+$("#nombre").val()+"&pass="+$("#pass").val(),
 				dataType: "text",
 				success: function(data){
-					console.log(data)
-					if(parseInt(data) != 0){
+					if(data){
 						window.location ="../consultaPerfil?id="+data;
 					}else{
 						alert('Usuario o contraseña incorrectos');
