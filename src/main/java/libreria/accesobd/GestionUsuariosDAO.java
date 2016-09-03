@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import libreria.negocio.TOUsuarios;
+import libreria.negocio.TOUsuario;
 
 public class GestionUsuariosDAO {
 	
@@ -36,9 +36,9 @@ public class GestionUsuariosDAO {
 		}
 	}
 	
-	public TOUsuarios inicioSesion(String nombre, String pass) throws Exception{
+	public TOUsuario inicioSesion(String nombre, String pass) throws Exception{
 		Connection conexion = null;
-		TOUsuarios usuarios = null;
+		TOUsuario usuarios = null;
 		Statement st = null;
 		ResultSet rs = null;
 		try {
@@ -48,7 +48,7 @@ public class GestionUsuariosDAO {
 			String sql = ("SELECT * FROM TBUSUARIOS WHERE NOMBRE = '"+nombre+"' AND PASS = '"+pass+"';");
 			rs = st.executeQuery(sql);
 			if(rs.next()){ 
-				usuarios = new TOUsuarios();
+				usuarios = new TOUsuario();
 				usuarios.setId(rs.getInt("ID"));
 				usuarios.setNombre(rs.getString("NOMBRE"));
 				usuarios.setPass(rs.getString("PASS"));
@@ -95,9 +95,9 @@ public class GestionUsuariosDAO {
 		return i>=1;
 	}
 	
-	public TOUsuarios getUsuario(int id) throws Exception{
+	public TOUsuario getUsuario(int id) throws Exception{
 		Connection conexion = null;
-		TOUsuarios usuario = null;
+		TOUsuario usuario = null;
 		Statement st = null;
 		ResultSet rs = null;
 		try {
@@ -107,7 +107,7 @@ public class GestionUsuariosDAO {
 			String sql = ("SELECT * FROM TBUSUARIOS WHERE ID = "+id+";");
 			rs = st.executeQuery(sql);
 			if(rs.next()){ 
-				usuario = new TOUsuarios();
+				usuario = new TOUsuario();
 				usuario.setId(rs.getInt("ID"));
 				usuario.setNombre(rs.getString("NOMBRE"));
 				usuario.setPass(rs.getString("PASS"));
@@ -128,9 +128,9 @@ public class GestionUsuariosDAO {
 		return usuario;
 	}
 	
-	public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+	public ArrayList<TOUsuario> getTodosUsuario() throws Exception{
 		Connection conexion = null;
-		ArrayList<TOUsuarios> usuarios = new ArrayList<TOUsuarios>();
+		ArrayList<TOUsuario> usuarios = new ArrayList<TOUsuario>();
 		Statement st = null;
 		ResultSet rs = null;
 		try {
@@ -140,7 +140,7 @@ public class GestionUsuariosDAO {
 			String sql = ("SELECT * FROM TBUSUARIOS;");
 			rs = st.executeQuery(sql);
 			if(rs.next()){ 
-				TOUsuarios usuario = new TOUsuarios();
+				TOUsuario usuario = new TOUsuario();
 				usuario.setId(rs.getInt("ID"));
 				usuario.setNombre(rs.getString("NOMBRE"));
 				usuario.setPass(rs.getString("PASS"));

@@ -11,7 +11,7 @@ public class GestionUsuariosNegocio {
 	public GestionUsuariosNegocio(){	
 	}
 	
-	public TOUsuarios inicioSesion(String nombre, String pass) throws Exception{
+	public TOUsuario inicioSesion(String nombre, String pass) throws Exception{
 		return gestionUsuarios.inicioSesion(nombre, pass);
 	}
 	
@@ -23,11 +23,11 @@ public class GestionUsuariosNegocio {
 		gestionUsuarios.crearTablaUsuarios();
 	}
 	
-	public TOUsuarios getUsuario(int id) throws Exception{
+	public TOUsuario getUsuario(int id) throws Exception{
 		return gestionUsuarios.getUsuario(id);
 	}
 	
-	public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+	public ArrayList<TOUsuario> getTodosUsuario() throws Exception{
 		return gestionUsuarios.getTodosUsuario();
 	}
 	

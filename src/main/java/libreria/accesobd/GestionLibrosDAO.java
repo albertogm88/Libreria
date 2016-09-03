@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import libreria.negocio.TOLibros;
+import libreria.negocio.TOLibro;
 
 public class GestionLibrosDAO {
 
@@ -70,8 +72,8 @@ public class GestionLibrosDAO {
 		}	
 	}
 	
-	public ArrayList<TOLibros> getLibros() throws Exception{
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
+	public ArrayList<TOLibro> getLibros() throws Exception{
+		ArrayList<TOLibro> listaLibros = new ArrayList<TOLibro>();
 		Connection conexion = null;
 		Statement st = null;
 		try {
@@ -81,7 +83,7 @@ public class GestionLibrosDAO {
 			String sqlSelect = ("SELECT * FROM TBLIBROS");
 			ResultSet rs = st.executeQuery(sqlSelect);
 			while (rs.next()) {
-				TOLibros libro = new TOLibros();
+				TOLibro libro = new TOLibro();
 				libro.setIsbn(rs.getInt("ISBN"));
 				libro.setNombre(rs.getString("NOMBRE"));
 				libro.setAutor(rs.getString("AUTOR"));
@@ -104,8 +106,34 @@ public class GestionLibrosDAO {
 		return listaLibros;
 	}
 	
-	public TOLibros getDetalle(int isbn) throws Exception{
-		TOLibros libro = new TOLibros();
+	public String getLibrosUsu() throws Exception{
+		Connection conexion = null;
+		Statement st = null;
+		String result = new String();
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
+			st = conexion.createStatement();
+			String sqlSelect = ("SELECT * FROM TBLIBROUSU");
+			ResultSet rs = st.executeQuery(sqlSelect);
+			while (rs.next()) {
+				result += rs.getInt("ISBN")+"/";
+				result += rs.getInt("IDUSU")+"/";
+			}
+			
+		} catch (ClassNotFoundException e) {
+			throw new Exception("Error en la operación"+e.getMessage());
+		}catch(SQLException e){
+			throw new Exception("Error en la operación"+e.getMessage());
+		} finally{
+			st.close();
+			conexion.close();
+		}
+		return result;
+	}
+	
+	public TOLibro getDetalle(int isbn) throws Exception{
+		TOLibro libro = new TOLibro();
 		Connection conexion = null;
 		Statement st = null;
 		try {
@@ -134,8 +162,8 @@ public class GestionLibrosDAO {
 		return libro;
 	}
 	
-	public ArrayList<TOLibros> buscarLibros(String texto) throws Exception{
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
+	public ArrayList<TOLibro> buscarLibros(String texto) throws Exception{
+		ArrayList<TOLibro> listaLibros = new ArrayList<TOLibro>();
 		Connection conexion = null;
 		Statement st = null;
 		try {
@@ -145,7 +173,7 @@ public class GestionLibrosDAO {
 			String sqlSelect = ("SELECT * FROM TBLIBROS WHERE (UPPER(NOMBRE) LIKE UPPER('%"+texto+"%') OR UPPER(AUTOR) LIKE UPPER('%"+texto+"%') OR UPPER(EDITORIAL) LIKE UPPER('%"+texto+"%'))");
 			ResultSet rs = st.executeQuery(sqlSelect);
 			while (rs.next()) {
-				TOLibros libro = new TOLibros();
+				TOLibro libro = new TOLibro();
 				libro.setIsbn(rs.getInt("ISBN"));
 				libro.setNombre(rs.getString("NOMBRE"));
 				libro.setAutor(rs.getString("AUTOR"));
@@ -168,8 +196,8 @@ public class GestionLibrosDAO {
 		return listaLibros;
 	}
 	
-	public ArrayList<TOLibros> buscarLibrosPorISBN(int isbn) throws Exception{
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
+	public TOLibro buscarLibrosPorISBN(int isbn) throws Exception{
+		TOLibro libro = new TOLibro();
 		Connection conexion = null;
 		Statement st = null;
 		try {
@@ -179,7 +207,6 @@ public class GestionLibrosDAO {
 			String sqlSelect = ("SELECT * FROM TBLIBROS WHERE ISBN = "+isbn+";");
 			ResultSet rs = st.executeQuery(sqlSelect);
 			while (rs.next()) {
-				TOLibros libro = new TOLibros();
 				libro.setIsbn(rs.getInt("ISBN"));
 				libro.setNombre(rs.getString("NOMBRE"));
 				libro.setAutor(rs.getString("AUTOR"));
@@ -187,8 +214,6 @@ public class GestionLibrosDAO {
 				libro.setFecha(rs.getDate("FECHA"));
 				libro.setEstado(rs.getString("ESTADO"));
 				libro.setNumPag(rs.getInt("NUMPAG"));
-				
-				listaLibros.add(libro);
 			}
 			
 		} catch (ClassNotFoundException e) {
@@ -199,19 +224,27 @@ public class GestionLibrosDAO {
 			st.close();
 			conexion.close();
 		}
-		return listaLibros;
+		return libro;
 	}
 	
-	public void altaLibro(TOLibros libro) throws Exception{
+	public int altaLibro(TOLibro libro) throws Exception{
 		Connection conexion = null;
 		Statement st = null;
+		int isbnInsertado = 0;
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
 			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
 			st = conexion.createStatement();
-			String sqlInsert = ("INSERT INTO TBLIBROS VALUES ("+libro.getIsbn()+", '"+libro.getNombre()+"', '"+libro.getAutor()+"', "
-					+ "'"+libro.getEditorial()+"', '"+libro.getFecha()+"', '"+libro.getEstado()+"', "+libro.getNumPag()+")");
+			DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+			String fecha = df.format(libro.getFecha());
+			String sqlInsert = ("INSERT INTO TBLIBROS (NOMBRE, AUTOR, EDITORIAL, FECHA, ESTADO, NUMPAG) VALUES ('"+libro.getNombre()+"', '"+libro.getAutor()+"', "
+					+ "'"+libro.getEditorial()+"', '"+fecha+"', '"+libro.getEstado()+"', "+libro.getNumPag()+")");
+			//String sqlNext = ("CALL IDENTITY();");
 			st.executeUpdate(sqlInsert);
+			ResultSet rs = st.getGeneratedKeys();
+			if (rs.next()) {
+	            isbnInsertado = rs.getInt(1);
+	        }
 		
 		} catch (ClassNotFoundException e) {
 			throw new Exception("Error en la operación"+e.getMessage());
@@ -221,6 +254,7 @@ public class GestionLibrosDAO {
 			st.close();
 			conexion.close();
 		}
+		return isbnInsertado;
 	}
 	
 	public void altaLibroUsuario(int isbn, int idUsu) throws Exception{
@@ -243,8 +277,8 @@ public class GestionLibrosDAO {
 		}
 	}
 	
-	public ArrayList<TOLibros> getTodosLibrosUsuario(int idUsu) throws Exception{
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
+	public ArrayList<TOLibro> getTodosLibrosUsuario(int idUsu) throws Exception{
+		ArrayList<TOLibro> listaLibros = new ArrayList<TOLibro>();
 		Connection conexion = null;
 		Statement st = null;
 		try {
@@ -254,7 +288,7 @@ public class GestionLibrosDAO {
 			String sqlSelect = ("SELECT * FROM TBLIBROS WHERE ISBN IN (SELECT ISBN FROM TBLIBROUSU WHERE IDUSU = "+idUsu+");");
 			ResultSet rs = st.executeQuery(sqlSelect);
 			while (rs.next()) {
-				TOLibros libro = new TOLibros();
+				TOLibro libro = new TOLibro();
 				libro.setIsbn(rs.getInt("ISBN"));
 				libro.setNombre(rs.getString("NOMBRE"));
 				libro.setAutor(rs.getString("AUTOR"));

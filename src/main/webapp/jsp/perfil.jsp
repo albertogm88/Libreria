@@ -16,7 +16,7 @@
 		<a href=".">Volver al inicio</a></span>
 		<div class="menuLibros">
 			<h3>Menú contextual libros:</h3>
-			<div class='libro'><a href="jsp/altaLibro.jsp">Alta de un nuevo libro</a></div>
+			<div class='libro'><a href="jsp/altaLibro.jsp?idUsu=${USUARIO.id}">Alta de un nuevo libro</a></div>
 			<div class='libro'>Modificación de un libro</div>
 			<div class='libro'>Dar de baja un libro</div>
 		</div>

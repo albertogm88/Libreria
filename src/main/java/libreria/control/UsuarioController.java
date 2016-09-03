@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import libreria.negocio.GestionLibrosNegocio;
 import libreria.negocio.GestionUsuariosNegocio;
-import libreria.negocio.TOLibros;
-import libreria.negocio.TOUsuarios;
+import libreria.negocio.TOLibro;
+import libreria.negocio.TOUsuario;
 
 
 @Controller
 public class UsuarioController {
 	
 	@RequestMapping(value="/cargaInicial", method = RequestMethod.GET)
-	@ResponseBody public ArrayList<TOLibros> getPortada() throws Exception{
+	@ResponseBody public ArrayList<TOLibro> getPortada() throws Exception{
 		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		gestionUsuarios.crearTablaUsuarios();
-		ArrayList<TOLibros> libros = gestionLibros.cargaInicial();
+		ArrayList<TOLibro> libros = gestionLibros.cargaInicial();
 		return libros;
 	}
 	
 	@RequestMapping(value="/inicioSesion", method = RequestMethod.POST)
 	@ResponseBody public int inicioSesion(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass) throws Exception{
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
-		TOUsuarios usuario = gestionUsuarios.inicioSesion(nombre, pass);
+		TOUsuario usuario = gestionUsuarios.inicioSesion(nombre, pass);
 		return usuario!=null?usuario.getId():null;
 	}
 	
@@ -58,14 +58,14 @@ public class UsuarioController {
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		HttpSession session= request.getSession(true);
-		TOUsuarios usuario = gestionUsuarios.getUsuario(id);
+		TOUsuario usuario = gestionUsuarios.getUsuario(id);
 		model.addAttribute("USUARIO", usuario);
 		model.addAttribute("LIBROS", gestionLibros.getTodosLibrosUsuario(id));
 		session.setAttribute("USUARIO",usuario);
 		return "perfil";
 	}
 	@RequestMapping(value="/usuarios",  method = {RequestMethod.POST, RequestMethod.GET})
-	@ResponseBody public ArrayList<TOUsuarios> getTodosUsuario() throws Exception{
+	@ResponseBody public ArrayList<TOUsuario> getTodosUsuario() throws Exception{
 		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		return gestionUsuarios.getTodosUsuario();
 	}

@@ -1,6 +1,6 @@
 package libreria.negocio;
 
-public class TOUsuarios {
+public class TOUsuario {
 	
 	private int id;
 	private String nombre;
@@ -10,7 +10,7 @@ public class TOUsuarios {
 	private String tipoUsuario;
 	private String indBaja;
 	
-	public TOUsuarios() {
+	public TOUsuario() {
 		this.id = 0;
 		this.nombre = null;
 		this.pass = null;

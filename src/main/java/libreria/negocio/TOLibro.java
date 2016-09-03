@@ -2,7 +2,7 @@ package libreria.negocio;
 
 import java.util.Date;
 
-public class TOLibros {
+public class TOLibro {
 
 	private int isbn;
 	private String nombre;
@@ -12,7 +12,7 @@ public class TOLibros {
 	private String estado;
 	private int numPag;
 	
-	public TOLibros(){
+	public TOLibro(){
 		this.isbn = 0;
 		this.nombre = null;
 		this.autor = null;

@@ -9,9 +9,9 @@ public class GestionLibrosNegocio {
 	public GestionLibrosNegocio(){	
 	}
 	
-	public ArrayList<TOLibros> cargaInicial(){
+	public ArrayList<TOLibro> cargaInicial(){
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
-		ArrayList<TOLibros> listaLibros = new ArrayList<TOLibros>();
+		ArrayList<TOLibro> listaLibros = new ArrayList<TOLibro>();
 		try {
 			gestionLibros.crearTablaLibros();
 			listaLibros = gestionLibros.getLibros();
@@ -27,23 +27,29 @@ public class GestionLibrosNegocio {
 	}
 	
 	
-	public TOLibros getDetalle(int isbn) throws Exception{
+	public TOLibro getDetalle(int isbn) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
 		return gestionLibros.getDetalle(isbn);
 	}
 
-	public ArrayList<TOLibros> buscarLibros(String texto) throws Exception{
+	public ArrayList<TOLibro> buscarLibros(String texto) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
 		return gestionLibros.buscarLibros(texto);
 	}
 	
-	public ArrayList<TOLibros> buscarLibroPorISBN(int isbn) throws Exception{
+	public TOLibro buscarLibroPorISBN(int isbn) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
 		return gestionLibros.buscarLibrosPorISBN(isbn);
 	}
 	
-	public ArrayList<TOLibros> getTodosLibrosUsuario(int idUsu) throws Exception{
+	public ArrayList<TOLibro> getTodosLibrosUsuario(int idUsu) throws Exception{
 		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
 		return gestionLibros.getTodosLibrosUsuario(idUsu);
 	}
+	
+	public void altaLibro(TOLibro libro, int idUsu) throws Exception{
+		GestionLibrosDAO gestionLibros = new GestionLibrosDAO();
+		int isbn = gestionLibros.altaLibro(libro);
+		gestionLibros.altaLibroUsuario(isbn, idUsu);
+	} 
 }

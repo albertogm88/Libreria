@@ -22,6 +22,7 @@
 		<c:if test="${empty USUARIO}">
 			<a href="jsp/login.jsp">Inicia sesión / Regístrate</a>
 			<a href="./usuarios">Usuarios</a>
+			<a href="./libros">Libros</a>
 		</c:if>
 		</div>
 		<div id="filtro">
