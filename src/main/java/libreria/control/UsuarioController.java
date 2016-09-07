@@ -22,10 +22,11 @@ import libreria.negocio.TOUsuario;
 @Controller
 public class UsuarioController {
 	
+	GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
+	GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
+	
 	@RequestMapping(value="/cargaInicial", method = RequestMethod.GET)
 	@ResponseBody public ArrayList<TOLibro> getPortada() throws Exception{
-		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
-		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		gestionUsuarios.crearTablaUsuarios();
 		ArrayList<TOLibro> libros = gestionLibros.cargaInicial();
 		return libros;
@@ -33,7 +34,6 @@ public class UsuarioController {
 	
 	@RequestMapping(value="/inicioSesion", method = RequestMethod.POST)
 	@ResponseBody public int inicioSesion(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass) throws Exception{
-		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		TOUsuario usuario = gestionUsuarios.inicioSesion(nombre, pass);
 		return usuario!=null?usuario.getId():null;
 	}
@@ -48,15 +48,12 @@ public class UsuarioController {
 	@RequestMapping(value="/crearPerfil", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody public boolean crearPerfil(@RequestParam("nombre") String nombre, @RequestParam("pass") String pass,
 			@RequestParam("email") String email, @RequestParam("provincia") String provincia, @RequestParam("tipo") String tipo) throws Exception{
-		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		boolean creado = gestionUsuarios.crearPerfil(nombre, pass, email, provincia, tipo);
 		return creado;
 	}
 	
 	@RequestMapping(value="/consultaPerfil", method = {RequestMethod.POST, RequestMethod.GET})
 	public String getPerfil(@RequestParam("id") int id, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
-		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
 		HttpSession session= request.getSession(true);
 		TOUsuario usuario = gestionUsuarios.getUsuario(id);
 		model.addAttribute("USUARIO", usuario);
@@ -66,8 +63,15 @@ public class UsuarioController {
 	}
 	@RequestMapping(value="/usuarios",  method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody public ArrayList<TOUsuario> getTodosUsuario() throws Exception{
-		GestionUsuariosNegocio gestionUsuarios = new GestionUsuariosNegocio();
 		return gestionUsuarios.getTodosUsuario();
+	}
+	
+	@RequestMapping(value="/darseBaja", method = {RequestMethod.POST, RequestMethod.GET})
+	public String darseBaja(HttpServletRequest request, @RequestParam("idUsu") String idUsu) throws Exception{
+		gestionUsuarios.darseBaja(Long.parseLong(idUsu));
+		HttpSession session= request.getSession(true);
+		session.invalidate();
+		return "../index";
 	}
 	
 }

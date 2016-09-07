@@ -162,4 +162,23 @@ public class GestionUsuariosDAO {
 		return usuarios;
 	}
 	
+	public void darseBaja(long idUsu) throws Exception{
+		Connection conexion = null;
+		Statement st = null;
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
+			st = conexion.createStatement();
+			String sql = ("DELETE FROM TBUSUARIOS WHERE ID = "+idUsu+";");
+			st.executeUpdate(sql);
+		} catch (ClassNotFoundException e) {
+			throw new Exception("Error al crear la clase de conexion"+e.getMessage());
+		}catch(SQLException e){
+			throw new Exception("Error en la operación"+e.getMessage());
+		} finally{
+			st.close();
+			conexion.close();
+		}	
+	}
+	
 }

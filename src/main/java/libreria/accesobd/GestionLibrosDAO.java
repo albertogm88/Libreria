@@ -311,4 +311,26 @@ public class GestionLibrosDAO {
 		return listaLibros;
 	}
 	
+	
+	public void eliminarLibrosUsuario(long idUsu) throws Exception{
+		Connection conexion = null;
+		Statement st = null;
+		try {
+			Class.forName("org.hsqldb.jdbcDriver");
+			conexion = DriverManager.getConnection("jdbc:hsqldb:file:ficherodb", "libreria", "libreria");
+			st = conexion.createStatement();
+			String sqlDelete = ("DELETE FROM TBLIBROS WHERE ISBN IN (SELECT ISBN FROM TBLIBROUSU WHERE IDUSU = "+idUsu+");");
+			String sqlDeleteRel = ("DELETE FROM TBLIBROUSU WHERE IDUSU = "+idUsu+";");
+			st.executeUpdate(sqlDelete);
+			st.executeUpdate(sqlDeleteRel);
+			
+		} catch (ClassNotFoundException e) {
+			throw new Exception("Error en la operación"+e.getMessage());
+		}catch(SQLException e){
+			throw new Exception("Error en la operación"+e.getMessage());
+		} finally{
+			st.close();
+			conexion.close();
+		}
+	}
 }

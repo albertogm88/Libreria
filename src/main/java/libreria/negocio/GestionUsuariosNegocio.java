@@ -31,4 +31,9 @@ public class GestionUsuariosNegocio {
 		return gestionUsuarios.getTodosUsuario();
 	}
 	
+	public void darseBaja(long idUsu) throws Exception{
+		gestionUsuarios.darseBaja(idUsu);
+		GestionLibrosNegocio gestionLibros = new GestionLibrosNegocio();
+		gestionLibros.bajaLibrosUsuario(idUsu);
+	}
 }

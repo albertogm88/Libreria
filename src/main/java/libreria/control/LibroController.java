@@ -84,7 +84,10 @@ public class LibroController {
 		libro.setEstado(estado);
 		TOUsuario usuario = (TOUsuario) session.getAttribute("USUARIO");
 		int idUsu = usuario.getId();
-		gestionLibros.altaLibro(libro, idUsu);
+		ArrayList<TOLibro> listadoLibros = gestionLibros.getTodosLibrosUsuario(idUsu);
+		if("R".equals(usuario.getTipoUsuario()) && listadoLibros.size()<=10){
+			gestionLibros.altaLibro(libro, idUsu);
+		}
 	}
 	
 	@RequestMapping(value="/libros",  method = {RequestMethod.POST, RequestMethod.GET})
